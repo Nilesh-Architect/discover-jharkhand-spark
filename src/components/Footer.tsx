@@ -31,8 +31,9 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-card border-t border-border">
-      <div className="container mx-auto px-4 py-12">
+    <>
+      <footer className="bg-card border-t border-border">
+        <div className="container mx-auto px-4 py-12">
         {/* Top Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           {/* Brand */}
@@ -101,6 +102,24 @@ const Footer = () => {
         </div>
       </div>
     </footer>
+
+      {/* Mobile Social Bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-md border-t border-border z-40 pb-safe">
+        <div className="flex items-center justify-around py-3 px-4">
+          {socialLinks.map((social) => (
+            <a
+              key={social.label}
+              href={social.url}
+              aria-label={social.label}
+              className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors"
+            >
+              <social.icon className="h-5 w-5" />
+              <span className="text-xs">{social.label}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 

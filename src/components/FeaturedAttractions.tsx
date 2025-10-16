@@ -1,5 +1,6 @@
 import { MapPin, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import ShareButtons from "@/components/ShareButtons";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import waterfallImg from "@/assets/waterfall.jpg";
@@ -88,7 +89,8 @@ const FeaturedAttractions = () => {
                   </div>
                 </div>
                 <CardContent className="p-4">
-                  <p className="text-sm text-muted-foreground">{attraction.description}</p>
+                  <p className="text-sm text-muted-foreground mb-3">{attraction.description}</p>
+                  <ShareButtons title={attraction.name} compact />
                 </CardContent>
               </Card>
             </Link>

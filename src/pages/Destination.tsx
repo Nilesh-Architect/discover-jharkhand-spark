@@ -1,8 +1,11 @@
 import { useParams, Link } from "react-router-dom";
-import { MapPin, Clock, Calendar, Phone, ArrowLeft, Map as MapIcon, Hotel, Camera } from "lucide-react";
+import { MapPin, Clock, Calendar, Phone, ArrowLeft, Map as MapIcon, Hotel, Camera, Star, Navigation } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import EmergencyButton from "@/components/EmergencyButton";
+import ShareButtons from "@/components/ShareButtons";
+import TransportationOptions from "@/components/TransportationOptions";
+import ReviewsSection from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import waterfallImg from "@/assets/waterfall.jpg";
@@ -115,9 +118,16 @@ const Destination = () => {
                 {destination.category}
               </span>
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">{destination.name}</h1>
-              <div className="flex items-center gap-2 text-white/90">
-                <MapPin className="h-4 w-4" />
-                {destination.location}
+              <div className="flex items-center gap-4 flex-wrap">
+                <div className="flex items-center gap-2 text-white/90">
+                  <MapPin className="h-4 w-4" />
+                  {destination.location}
+                </div>
+                <div className="flex items-center gap-1 text-white/90">
+                  <Star className="h-4 w-4 fill-white" />
+                  <span className="font-semibold">{destination.rating || 4.5}</span>
+                  <span className="text-sm">({destination.totalReviews || 208} reviews)</span>
+                </div>
               </div>
             </div>
           </div>
@@ -131,7 +141,11 @@ const Destination = () => {
               <div className="lg:col-span-2 space-y-8">
                 <div>
                   <h2 className="text-2xl font-bold text-foreground mb-4">About</h2>
-                  <p className="text-muted-foreground leading-relaxed">{destination.description}</p>
+                  <p className="text-muted-foreground leading-relaxed mb-4">{destination.description}</p>
+                  <div className="mt-4">
+                    <h3 className="text-sm font-semibold text-foreground mb-2">Share this destination</h3>
+                    <ShareButtons title={destination.name} />
+                  </div>
                 </div>
 
                 <div>
@@ -160,21 +174,59 @@ const Destination = () => {
                   </div>
                 </div>
 
-                {/* Map Placeholder */}
+                {/* Getting There Section */}
+                <div>
+                  <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
+                    <Navigation className="h-6 w-6 text-primary" />
+                    Getting There
+                  </h2>
+                  <Card>
+                    <CardContent className="p-6">
+                      <TransportationOptions destination={destination.name} />
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Interactive Map */}
                 <Card>
                   <CardContent className="p-6">
                     <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                       <MapIcon className="h-5 w-5 text-primary" />
                       Location Map
                     </h2>
-                    <div className="bg-muted rounded-lg h-64 flex items-center justify-center">
-                      <div className="text-center text-muted-foreground">
-                        <MapIcon className="h-12 w-12 mx-auto mb-2" />
-                        <p>Interactive map will be displayed here</p>
+                    <div className="bg-muted rounded-lg h-96 flex items-center justify-center relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10"></div>
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <MapPin className="h-12 w-12 text-primary fill-primary animate-bounce" />
+                      </div>
+                      <div className="absolute top-4 right-4 z-10 flex gap-2">
+                        <Button size="sm" variant="secondary">
+                          + Zoom In
+                        </Button>
+                        <Button size="sm" variant="secondary">
+                          - Zoom Out
+                        </Button>
+                      </div>
+                      <div className="absolute bottom-4 left-4 right-4 z-10">
+                        <Card>
+                          <CardContent className="p-3">
+                            <p className="text-sm font-semibold text-foreground">{destination.name}</p>
+                            <p className="text-xs text-muted-foreground">{destination.location}</p>
+                          </CardContent>
+                        </Card>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
+
+                {/* Reviews Section */}
+                <div>
+                  <h2 className="text-2xl font-bold text-foreground mb-6">Reviews & Ratings</h2>
+                  <ReviewsSection 
+                    averageRating={destination.rating || 4.5} 
+                    totalReviews={destination.totalReviews || 208}
+                  />
+                </div>
               </div>
 
               {/* Sidebar */}
