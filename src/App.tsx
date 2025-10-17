@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useNativeApp } from "@/hooks/useNativeApp";
+import SplashScreen from "@/components/SplashScreen";
 import Index from "./pages/Index";
 import Attractions from "./pages/Attractions";
 import Destination from "./pages/Destination";
@@ -15,10 +17,14 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => {
+  const [showSplash, setShowSplash] = useState(true);
+  
   // Initialize native app features (splash screen, status bar)
   useNativeApp();
   
   return (
+    <>
+      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
@@ -37,6 +43,7 @@ const App = () => {
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
+    </>
   );
 };
 
