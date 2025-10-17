@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Hotel, Star, MapPin, Phone, Mail, Wifi, Car, Utensils, Dumbbell, Coffee, Shield, Users, Calendar, ExternalLink } from "lucide-react";
+import { useParams, Link } from "react-router-dom";
+import { Hotel, Star, MapPin, ArrowLeft, Wifi, Car, Utensils, Dumbbell, Coffee, ExternalLink, Phone, Mail } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import EmergencyButton from "@/components/EmergencyButton";
@@ -7,96 +8,146 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import waterfallImg from "@/assets/waterfall.jpg";
+import templeImg from "@/assets/temple.jpg";
+import wildlifeImg from "@/assets/wildlife.jpg";
+import festivalImg from "@/assets/festival.jpg";
 
-const Accommodation = () => {
-  const [location, setLocation] = useState("");
+const DestinationAccommodation = () => {
+  const { id } = useParams();
   const [priceRange, setPriceRange] = useState("all");
 
-  const hotels = [
-    {
-      id: 1,
-      name: "JTDC Hotel Ranchi",
-      location: "Ranchi",
-      rating: 4.2,
-      price: 2500,
-      amenities: ["WiFi", "Restaurant", "Parking", "AC", "Room Service"],
-      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945",
-      description: "Government-run hotel with modern amenities and excellent location",
-      distance: "2 km from city center",
-      type: "Government",
-      bookingLink: "https://www.booking.com/",
+  // Mock data - in a real app, this would come from an API
+  const destinationData: Record<string, any> = {
+    "hundru-falls": {
+      name: "Hundru Falls",
+      location: "Ranchi, Jharkhand",
+      image: waterfallImg,
+      nearbyHotels: [
+        {
+          id: 1,
+          name: "JTDC Hotel Ranchi",
+          distance: "15 km",
+          rating: 4.2,
+          price: 2500,
+          amenities: ["WiFi", "Restaurant", "Parking", "AC", "Room Service"],
+          image: "https://images.unsplash.com/photo-1566073771259-6a8506099945",
+          description: "Government-run hotel with modern amenities and excellent location",
+          type: "Government",
+          bookingLink: "https://www.booking.com/",
+        },
+        {
+          id: 2,
+          name: "Hotel Yuvraj Palace",
+          distance: "18 km",
+          rating: 4.3,
+          price: 3000,
+          amenities: ["AC", "Restaurant", "Room Service", "WiFi", "Parking"],
+          image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa",
+          description: "Luxury hotel with premium facilities and great service",
+          type: "Luxury",
+          bookingLink: "https://www.goibibo.com/",
+        }
+      ]
     },
-    {
-      id: 2,
-      name: "Forest Rest House - Betla",
-      location: "Betla National Park",
-      rating: 4.0,
-      price: 1800,
-      amenities: ["Nature View", "Safari", "Dining", "Parking"],
-      image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
-      description: "Unique accommodation inside the national park with wildlife viewing",
-      distance: "Inside the park",
-      type: "Forest Lodge",
-      bookingLink: "https://www.makemytrip.com/",
+    "baidyanath-temple": {
+      name: "Baidyanath Temple",
+      location: "Deoghar, Jharkhand",
+      image: templeImg,
+      nearbyHotels: [
+        {
+          id: 3,
+          name: "Hotel Yuvraj Palace",
+          distance: "1 km",
+          rating: 4.3,
+          price: 3000,
+          amenities: ["AC", "Restaurant", "Room Service", "WiFi", "Parking"],
+          image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa",
+          description: "Luxury hotel near Baidyanath Temple with premium facilities",
+          type: "Luxury",
+          bookingLink: "https://www.goibibo.com/",
+        },
+        {
+          id: 4,
+          name: "Budget Inn Deoghar",
+          distance: "2 km",
+          rating: 3.8,
+          price: 1500,
+          amenities: ["WiFi", "Breakfast", "Parking", "AC"],
+          image: "https://images.unsplash.com/photo-1590490360182-c33d57733427",
+          description: "Affordable accommodation with basic amenities for budget travelers",
+          type: "Budget",
+          bookingLink: "https://www.trivago.in/",
+        }
+      ]
     },
-    {
-      id: 3,
-      name: "Hotel Yuvraj Palace",
-      location: "Deoghar",
-      rating: 4.3,
-      price: 3000,
-      amenities: ["AC", "Restaurant", "Room Service", "WiFi", "Parking"],
-      image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa",
-      description: "Luxury hotel near Baidyanath Temple with premium facilities",
-      distance: "1 km from temple",
-      type: "Luxury",
-      bookingLink: "https://www.goibibo.com/",
+    "betla-national-park": {
+      name: "Betla National Park",
+      location: "Latehar, Jharkhand",
+      image: wildlifeImg,
+      nearbyHotels: [
+        {
+          id: 5,
+          name: "Forest Rest House - Betla",
+          distance: "Inside the park",
+          rating: 4.0,
+          price: 1800,
+          amenities: ["Nature View", "Safari", "Dining", "Parking"],
+          image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
+          description: "Unique accommodation inside the national park with wildlife viewing",
+          type: "Forest Lodge",
+          bookingLink: "https://www.makemytrip.com/",
+        },
+        {
+          id: 6,
+          name: "Wildlife Resort Latehar",
+          distance: "5 km",
+          rating: 4.1,
+          price: 2200,
+          amenities: ["Nature View", "Restaurant", "Parking", "WiFi"],
+          image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d",
+          description: "Resort with jungle views and wildlife safari packages",
+          type: "Resort",
+          bookingLink: "https://www.booking.com/",
+        }
+      ]
     },
-    {
-      id: 4,
-      name: "Budget Inn Jamshedpur",
-      location: "Jamshedpur",
-      rating: 3.8,
-      price: 1200,
-      amenities: ["WiFi", "Breakfast", "Parking", "AC"],
-      image: "https://images.unsplash.com/photo-1590490360182-c33d57733427",
-      description: "Affordable accommodation with basic amenities for budget travelers",
-      distance: "5 km from city center",
-      type: "Budget",
-      bookingLink: "https://www.trivago.in/",
-    },
-    {
-      id: 5,
-      name: "Heritage Resort Netarhat",
-      location: "Netarhat",
-      rating: 4.5,
-      price: 4500,
-      amenities: ["Mountain View", "Restaurant", "Spa", "WiFi", "Parking"],
-      image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d",
-      description: "Premium resort in the hills with breathtaking views and luxury amenities",
-      distance: "Hill station location",
-      type: "Resort",
-      bookingLink: "https://www.booking.com/",
-    },
-    {
-      id: 6,
-      name: "Tribal Village Homestay",
-      location: "Hazaribagh",
-      rating: 4.1,
-      price: 1500,
-      amenities: ["Cultural Experience", "Local Food", "Nature View"],
-      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96",
-      description: "Authentic tribal homestay experience with local culture and traditions",
-      distance: "Rural setting",
-      type: "Homestay",
-      bookingLink: "https://www.makemytrip.com/",
-    },
-  ];
+    "sarhul-festival": {
+      name: "Sarhul Festival",
+      location: "Statewide, Jharkhand",
+      image: festivalImg,
+      nearbyHotels: [
+        {
+          id: 7,
+          name: "Tribal Village Homestay",
+          distance: "Rural setting",
+          rating: 4.1,
+          price: 1500,
+          amenities: ["Cultural Experience", "Local Food", "Nature View"],
+          image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96",
+          description: "Authentic tribal homestay experience with local culture and traditions",
+          type: "Homestay",
+          bookingLink: "https://www.makemytrip.com/",
+        },
+        {
+          id: 8,
+          name: "Heritage Resort Netarhat",
+          distance: "Hill station location",
+          rating: 4.5,
+          price: 4500,
+          amenities: ["Mountain View", "Restaurant", "Spa", "WiFi", "Parking"],
+          image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d",
+          description: "Premium resort in the hills with breathtaking views and luxury amenities",
+          type: "Resort",
+          bookingLink: "https://www.booking.com/",
+        }
+      ]
+    }
+  };
 
-  const filteredHotels = hotels.filter((hotel) => {
-    const matchesLocation = location
-      ? hotel.location.toLowerCase().includes(location.toLowerCase())
-      : true;
+  const destination = destinationData[id || ""] || destinationData["hundru-falls"];
+
+  const filteredHotels = destination.nearbyHotels.filter((hotel: any) => {
     const matchesPrice =
       priceRange === "all"
         ? true
@@ -105,7 +156,7 @@ const Accommodation = () => {
         : priceRange === "mid"
         ? hotel.price >= 2000 && hotel.price < 3500
         : hotel.price >= 3500;
-    return matchesLocation && matchesPrice;
+    return matchesPrice;
   });
 
   return (
@@ -113,36 +164,54 @@ const Accommodation = () => {
       <Navbar />
       <main className="pt-16">
         {/* Header */}
-        <section className="hero-gradient py-16 text-white">
-          <div className="container mx-auto px-4">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Where to Stay</h1>
-            <p className="text-lg text-white/90 max-w-2xl">
-              Find comfortable accommodation across Jharkhand
-            </p>
+        <section className="relative h-64 overflow-hidden">
+          <img
+            src={destination.image}
+            alt={destination.name}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 flex items-end">
+            <div className="container mx-auto px-4 pb-8">
+              <Link to={`/destination/${id}`}>
+                <Button variant="ghost" className="text-white hover:text-white/80 mb-4">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Back to {destination.name}
+                </Button>
+              </Link>
+              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                Hotels Near {destination.name}
+              </h1>
+              <p className="text-white/90">{destination.location}</p>
+            </div>
           </div>
         </section>
 
         {/* Search & Filters */}
         <section className="py-8 bg-background border-b border-border sticky top-16 z-40">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Input
-                placeholder="Search by location..."
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-              />
-              <Select value={priceRange} onValueChange={setPriceRange}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Price Range" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Prices</SelectItem>
-                  <SelectItem value="budget">Budget (Under ₹2000)</SelectItem>
-                  <SelectItem value="mid">Mid-range (₹2000-3500)</SelectItem>
-                  <SelectItem value="luxury">Luxury (Above ₹3500)</SelectItem>
-                </SelectContent>
-              </Select>
-              <Button className="btn-primary">Search</Button>
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div className="flex items-center gap-4">
+                <Input
+                  placeholder="Search hotels..."
+                  className="w-64"
+                />
+                <Select value={priceRange} onValueChange={setPriceRange}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder="Price Range" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Prices</SelectItem>
+                    <SelectItem value="budget">Budget (Under ₹2000)</SelectItem>
+                    <SelectItem value="mid">Mid-range (₹2000-3500)</SelectItem>
+                    <SelectItem value="luxury">Luxury (Above ₹3500)</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button className="btn-primary">Search</Button>
+              </div>
+              <div className="text-muted-foreground">
+                {filteredHotels.length} hotel{filteredHotels.length !== 1 ? "s" : ""} found
+              </div>
             </div>
           </div>
         </section>
@@ -150,12 +219,8 @@ const Accommodation = () => {
         {/* Hotels List */}
         <section className="py-12 bg-background">
           <div className="container mx-auto px-4">
-            <div className="mb-6 text-muted-foreground">
-              Showing {filteredHotels.length} accommodation{filteredHotels.length !== 1 ? "s" : ""}
-            </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filteredHotels.map((hotel) => (
+              {filteredHotels.map((hotel: any) => (
                 <Card key={hotel.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-primary/20">
                   <div className="grid md:grid-cols-5">
                     <div className="md:col-span-2 h-48 md:h-auto relative">
@@ -182,16 +247,15 @@ const Accommodation = () => {
                           <h3 className="text-xl font-bold text-foreground mb-1">{hotel.name}</h3>
                           <div className="flex items-center gap-1 text-muted-foreground text-sm mb-2">
                             <MapPin className="h-4 w-4" />
-                            <span>{hotel.location}</span>
+                            <span>{hotel.distance} from {destination.name}</span>
                           </div>
-                          <p className="text-xs text-muted-foreground mb-2">{hotel.distance}</p>
                         </div>
                       </div>
 
                       <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{hotel.description}</p>
 
                       <div className="flex flex-wrap gap-2 mb-4">
-                        {hotel.amenities.slice(0, 4).map((amenity) => (
+                        {hotel.amenities.slice(0, 4).map((amenity: string) => (
                           <span
                             key={amenity}
                             className="text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground flex items-center gap-1"
@@ -239,68 +303,8 @@ const Accommodation = () => {
           </div>
         </section>
 
-        {/* Accommodation Types Section */}
-        <section className="py-16 bg-muted/30">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-foreground mb-12 text-center">Types of Accommodation</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card className="p-6 hover:shadow-lg transition-shadow text-center">
-                <CardContent className="p-0">
-                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Hotel className="h-8 w-8 text-blue-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground mb-3">Hotels & Resorts</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Comfortable accommodations with modern amenities and excellent service
-                  </p>
-                  <div className="text-sm text-muted-foreground">
-                    <p>• AC Rooms</p>
-                    <p>• Restaurant & Room Service</p>
-                    <p>• WiFi & Parking</p>
-                    <p>• Price: ₹1,500 - ₹5,000</p>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="p-6 hover:shadow-lg transition-shadow text-center">
-                <CardContent className="p-0">
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Shield className="h-8 w-8 text-green-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground mb-3">Forest Lodges</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Unique stays inside national parks with wildlife viewing opportunities
-                  </p>
-                  <div className="text-sm text-muted-foreground">
-                    <p>• Nature Views</p>
-                    <p>• Safari Tours</p>
-                    <p>• Basic Amenities</p>
-                    <p>• Price: ₹1,200 - ₹3,000</p>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="p-6 hover:shadow-lg transition-shadow text-center">
-                <CardContent className="p-0">
-                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Users className="h-8 w-8 text-purple-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground mb-3">Homestays</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Authentic local experiences with tribal families and cultural immersion
-                  </p>
-                  <div className="text-sm text-muted-foreground">
-                    <p>• Cultural Experience</p>
-                    <p>• Local Food</p>
-                    <p>• Traditional Activities</p>
-                    <p>• Price: ₹800 - ₹2,000</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
         {/* Booking Platforms Section */}
-        <section className="py-16 bg-background">
+        <section className="py-16 bg-muted/30">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-foreground mb-12 text-center">Book with Trusted Partners</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -376,49 +380,6 @@ const Accommodation = () => {
           </div>
         </section>
 
-        {/* Travel Tips Section */}
-        <section className="py-16 bg-muted/30">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-foreground mb-12 text-center">Accommodation Tips</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Card className="p-6">
-                <CardContent className="p-0">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                      <Calendar className="h-5 w-5 text-blue-600" />
-                    </div>
-                    <h3 className="text-xl font-bold text-foreground">Booking Tips</h3>
-                  </div>
-                  <ul className="space-y-2 text-muted-foreground">
-                    <li>• Book in advance during peak season (Oct-Mar)</li>
-                    <li>• Compare prices across multiple platforms</li>
-                    <li>• Check for seasonal discounts and offers</li>
-                    <li>• Read reviews before booking</li>
-                    <li>• Confirm cancellation policies</li>
-                  </ul>
-                </CardContent>
-              </Card>
-              <Card className="p-6">
-                <CardContent className="p-0">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                      <Shield className="h-5 w-5 text-green-600" />
-                    </div>
-                    <h3 className="text-xl font-bold text-foreground">Safety & Comfort</h3>
-                  </div>
-                  <ul className="space-y-2 text-muted-foreground">
-                    <li>• Verify hotel credentials and licenses</li>
-                    <li>• Check location and accessibility</li>
-                    <li>• Ensure basic amenities are available</li>
-                    <li>• Keep emergency contacts handy</li>
-                    <li>• Inform family about your stay details</li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
         {/* Contact Info */}
         <section className="py-12 bg-background">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -454,4 +415,4 @@ const Accommodation = () => {
   );
 };
 
-export default Accommodation;
+export default DestinationAccommodation;

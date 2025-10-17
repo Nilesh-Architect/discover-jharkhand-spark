@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Filter, Map as MapIcon, Grid3x3 } from "lucide-react";
+import { MapPin, Filter, Map as MapIcon, Grid3x3, Star, Clock, Users, TrendingUp, Camera, Heart, Share2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -220,6 +220,183 @@ const Attractions = () => {
                 ))}
               </div>
             )}
+          </div>
+        </section>
+
+        {/* Statistics Section */}
+        <section className="py-16 bg-muted/30">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-foreground mb-12 text-center">Jharkhand Tourism in Numbers</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+                <CardContent className="p-0">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <MapPin className="h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="text-3xl font-bold text-foreground mb-2">50+</h3>
+                  <p className="text-muted-foreground">Tourist Destinations</p>
+                </CardContent>
+              </Card>
+              <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+                <CardContent className="p-0">
+                  <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Users className="h-8 w-8 text-accent" />
+                  </div>
+                  <h3 className="text-3xl font-bold text-foreground mb-2">2.5M+</h3>
+                  <p className="text-muted-foreground">Annual Visitors</p>
+                </CardContent>
+              </Card>
+              <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+                <CardContent className="p-0">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Star className="h-8 w-8 text-green-600" />
+                  </div>
+                  <h3 className="text-3xl font-bold text-foreground mb-2">4.6</h3>
+                  <p className="text-muted-foreground">Average Rating</p>
+                </CardContent>
+              </Card>
+              <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+                <CardContent className="p-0">
+                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <TrendingUp className="h-8 w-8 text-blue-600" />
+                  </div>
+                  <h3 className="text-3xl font-bold text-foreground mb-2">25%</h3>
+                  <p className="text-muted-foreground">Growth Rate</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Popular Destinations Section */}
+        <section className="py-16 bg-background">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-foreground mb-12 text-center">Most Popular Destinations</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {attractions.slice(0, 6).map((attraction, index) => (
+                <Card key={attraction.id} className="group overflow-hidden hover:shadow-xl transition-all duration-300">
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={attraction.image}
+                      alt={attraction.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    <div className="absolute top-4 left-4">
+                      <span className="bg-white/90 text-foreground px-2 py-1 rounded-full text-xs font-medium">
+                        #{index + 1} Popular
+                      </span>
+                    </div>
+                    <div className="absolute top-4 right-4">
+                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0 bg-white/20 hover:bg-white/30 text-white">
+                        <Heart className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <div className="absolute bottom-4 left-4 right-4 text-white">
+                      <h3 className="text-lg font-bold mb-1">{attraction.name}</h3>
+                      <div className="flex items-center gap-2 text-sm">
+                        <MapPin className="h-3 w-3" />
+                        {attraction.location}
+                      </div>
+                    </div>
+                  </div>
+                  <CardContent className="p-4">
+                    <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{attraction.description}</p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="flex text-accent">
+                          {"★".repeat(Math.floor(attraction.rating))}
+                          {"☆".repeat(5 - Math.floor(attraction.rating))}
+                        </div>
+                        <span className="text-sm font-medium text-foreground">{attraction.rating}</span>
+                      </div>
+                      <ShareButtons title={attraction.name} compact />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Travel Tips Section */}
+        <section className="py-16 bg-muted/30">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-foreground mb-12 text-center">Travel Tips & Guidelines</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <Card className="p-6 hover:shadow-lg transition-shadow">
+                <CardContent className="p-0">
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                    <Clock className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-3">Best Time to Visit</h3>
+                  <p className="text-muted-foreground mb-4">
+                    October to March offers the most pleasant weather for sightseeing and outdoor activities.
+                  </p>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>• Winter (Oct-Mar): Ideal for sightseeing</li>
+                    <li>• Monsoon (Jul-Sep): Perfect for waterfalls</li>
+                    <li>• Summer (Apr-Jun): Hot but good for wildlife</li>
+                  </ul>
+                </CardContent>
+              </Card>
+              <Card className="p-6 hover:shadow-lg transition-shadow">
+                <CardContent className="p-0">
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                    <Camera className="h-6 w-6 text-green-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-3">Photography Tips</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Capture the beauty of Jharkhand with these professional photography tips.
+                  </p>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>• Golden hour: 6-8 AM & 5-7 PM</li>
+                    <li>• Waterfalls: Use tripod for long exposure</li>
+                    <li>• Wildlife: Patience is key</li>
+                  </ul>
+                </CardContent>
+              </Card>
+              <Card className="p-6 hover:shadow-lg transition-shadow">
+                <CardContent className="p-0">
+                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                    <Users className="h-6 w-6 text-purple-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-3">Travel Essentials</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Pack smart and travel comfortably with these essential items.
+                  </p>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>• Comfortable walking shoes</li>
+                    <li>• Light cotton clothing</li>
+                    <li>• Camera and extra batteries</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Call to Action Section */}
+        <section className="py-16 hero-gradient text-white">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Explore Jharkhand?</h2>
+            <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
+              Discover the hidden gems, rich culture, and breathtaking landscapes that make Jharkhand a unique destination.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/itinerary">
+                <Button size="lg" className="bg-white text-primary hover:bg-white/90">
+                  <MapIcon className="h-5 w-5 mr-2" />
+                  Plan Your Trip
+                </Button>
+              </Link>
+              <Link to="/accommodation">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+                  <Users className="h-5 w-5 mr-2" />
+                  Find Hotels
+                </Button>
+              </Link>
+            </div>
           </div>
         </section>
       </main>

@@ -9,6 +9,8 @@ import SplashScreen from "@/components/SplashScreen";
 import Index from "./pages/Index";
 import Attractions from "./pages/Attractions";
 import Destination from "./pages/Destination";
+import DestinationAccommodation from "./pages/DestinationAccommodation";
+import Reviews from "./pages/Reviews";
 import Itinerary from "./pages/Itinerary";
 import Accommodation from "./pages/Accommodation";
 import Events from "./pages/Events";
@@ -34,6 +36,8 @@ const App = () => {
           <Route path="/" element={<Index />} />
           <Route path="/attractions" element={<Attractions />} />
           <Route path="/destination/:id" element={<Destination />} />
+          <Route path="/destination/:id/accommodation" element={<DestinationAccommodation />} />
+          <Route path="/destination/:id/reviews" element={<Reviews />} />
           <Route path="/itinerary" element={<Itinerary />} />
           <Route path="/accommodation" element={<Accommodation />} />
           <Route path="/events" element={<Events />} />

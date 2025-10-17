@@ -1,11 +1,10 @@
 import { useParams, Link } from "react-router-dom";
-import { MapPin, Clock, Calendar, Phone, ArrowLeft, Map as MapIcon, Hotel, Camera, Star, Navigation } from "lucide-react";
+import { MapPin, Clock, Calendar, Phone, ArrowLeft, Map as MapIcon, Hotel, Camera, Star, Navigation, ExternalLink } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import EmergencyButton from "@/components/EmergencyButton";
 import ShareButtons from "@/components/ShareButtons";
 import TransportationOptions from "@/components/TransportationOptions";
-import ReviewsSection from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import waterfallImg from "@/assets/waterfall.jpg";
@@ -174,18 +173,6 @@ const Destination = () => {
                   </div>
                 </div>
 
-                {/* Getting There Section */}
-                <div>
-                  <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
-                    <Navigation className="h-6 w-6 text-primary" />
-                    Getting There
-                  </h2>
-                  <Card>
-                    <CardContent className="p-6">
-                      <TransportationOptions destination={destination.name} />
-                    </CardContent>
-                  </Card>
-                </div>
 
                 {/* Interactive Map */}
                 <Card>
@@ -219,14 +206,6 @@ const Destination = () => {
                   </CardContent>
                 </Card>
 
-                {/* Reviews Section */}
-                <div>
-                  <h2 className="text-2xl font-bold text-foreground mb-6">Reviews & Ratings</h2>
-                  <ReviewsSection 
-                    averageRating={destination.rating || 4.5} 
-                    totalReviews={destination.totalReviews || 208}
-                  />
-                </div>
               </div>
 
               {/* Sidebar */}
@@ -268,10 +247,16 @@ const Destination = () => {
                       <MapIcon className="mr-2 h-4 w-4" />
                       Get Directions
                     </Button>
-                    <Link to="/accommodation" className="block">
+                    <Link to={`/destination/${id}/accommodation`} className="block">
                       <Button variant="outline" className="w-full">
                         <Hotel className="mr-2 h-4 w-4" />
                         Find Hotels Nearby
+                      </Button>
+                    </Link>
+                    <Link to={`/destination/${id}/reviews`} className="block">
+                      <Button variant="outline" className="w-full">
+                        <Star className="mr-2 h-4 w-4" />
+                        View Reviews & Ratings
                       </Button>
                     </Link>
                     <Button variant="outline" className="w-full">
@@ -281,6 +266,90 @@ const Destination = () => {
                   </CardContent>
                 </Card>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Getting There Section - Full Width */}
+        <section className="py-16 bg-muted/30">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-foreground mb-8 text-center flex items-center justify-center gap-3">
+              <Navigation className="h-8 w-8 text-primary" />
+              Getting There
+            </h2>
+            <TransportationOptions destination={destination.name} />
+          </div>
+        </section>
+
+        {/* Additional Services Section */}
+        <section className="py-16 bg-background">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-foreground mb-12 text-center">Plan Your Complete Journey</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="p-6 hover:shadow-lg transition-shadow text-center">
+                <CardContent className="p-0">
+                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Hotel className="h-8 w-8 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-3">Book Accommodation</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Find the perfect place to stay near your destination
+                  </p>
+                  <Link to="/accommodation">
+                    <Button className="btn-primary w-full">
+                      Find Hotels
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+              <Card className="p-6 hover:shadow-lg transition-shadow text-center">
+                <CardContent className="p-0">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <MapIcon className="h-8 w-8 text-green-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-3">Plan Itinerary</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Create a detailed travel plan for your visit
+                  </p>
+                  <Link to="/itinerary">
+                    <Button className="btn-primary w-full">
+                      Plan Trip
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+              <Card className="p-6 hover:shadow-lg transition-shadow text-center">
+                <CardContent className="p-0">
+                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Calendar className="h-8 w-8 text-purple-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-3">Check Events</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Discover festivals and events during your visit
+                  </p>
+                  <Link to="/events">
+                    <Button className="btn-primary w-full">
+                      View Events
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+              <Card className="p-6 hover:shadow-lg transition-shadow text-center">
+                <CardContent className="p-0">
+                  <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Camera className="h-8 w-8 text-orange-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-3">Explore More</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Discover other amazing destinations in Jharkhand
+                  </p>
+                  <Link to="/attractions">
+                    <Button className="btn-primary w-full">
+                      Browse Attractions
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
